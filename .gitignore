@@ -4,6 +4,7 @@
 out/
 bin/
 target/
+dados/*.txt
 
 *.class
 *.jar

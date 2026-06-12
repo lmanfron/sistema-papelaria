@@ -1,53 +1,102 @@
 # Sistema de Gerenciamento de Papelaria
 
-## 📝 Descrição do Projeto
-Projeto desenvolvido em Java para simular o gerenciamento de uma papelaria. O sistema permite controlar clientes, funcionários, produtos, fornecedores, estoque e vendas. Foi desenvolvido utilizando conceitos de Programação Orientada a Objetos (POO), padrão MVC e persistência de dados em arquivos `.txt`.
+Projeto em Java puro para um trabalho em grupo de Programacao Orientada a Objetos.
+O sistema simula a gestao basica de uma papelaria usando MVC, colecoes, persistencia
+em arquivos `.txt`, logs e conceitos de POO.
 
-## ⚙️ Funcionalidades
+## Funcionalidades implementadas
 
-- Cadastro de clientes
-- Cadastro de funcionários
-- Cadastro de produtos
-- Cadastro de fornecedores
-- Controle de estoque
-- Registro de vendas
-- Persistência de dados em arquivos
-- Geração de logs do sistema
+- CRUD de clientes.
+- CRUD de funcionarios.
+- CRUD de categorias.
+- CRUD de produtos.
+- Consulta de produtos com estoque baixo.
+- Persistencia automatica na pasta `dados/`.
+- Registro de atividades e erros em `dados/log.txt`.
 
-## 🎯 Objetivos e Conceitos Aplicados
-Este trabalho atende aos requisitos da disciplina, incluindo:
-- **Padrão MVC:** Separação clara entre Model, View e Controller.
-- **POO:** Uso de herança (ex: Cliente herda de Pessoa), classes abstratas e polimorfismo.
-- **Coleções:** Uso de `ArrayList` para manipulação de dados em memória.
-- **Persistência:** Leitura e gravação de dados em arquivos de texto.
-- **Logs:** Registro de atividades importantes (cadastros, erros, alterações) no arquivo `log.txt`.
+Com esses modulos, o projeto possui pelo menos 3 CRUDs completos, conforme solicitado
+no trabalho.
 
-## 📁 Estrutura de Pacotes
-- `model`: Classes de entidade (Pessoa, Cliente, Funcionario, etc).
-- `view`: Classes de interação com o usuário (Menus e inputs via Scanner).
-- `controller`: Classes de regra de negócio e fluxo de dados.
-- `interfaces`: Contratos implementados no sistema.
-- `util`: Classes utilitárias (ex: ArquivoUtil para manipular os .txt).
+## Conceitos aplicados
 
-## 🚀 Como Executar o Projeto
-1. Clone este repositório: `git clone [https://github.com/lmanfron/sistema-papelaria.git]`
-2. Abra o projeto na sua IDE de preferência (IntelliJ IDEA, VS Code ou Eclipse).
-3. Execute o arquivo `Main.java` localizado no pacote raiz `papelaria`.
-4. Os dados salvos serão armazenados automaticamente na pasta `dados/`.
+- MVC: separacao entre `model`, `view` e `controller`.
+- Classe abstrata: `Pessoa`.
+- Heranca: `Cliente` e `Funcionario` herdam de `Pessoa`.
+- Polimorfismo: `getTipo()` e sobrescrito nas subclasses de `Pessoa`.
+- Interface: `Identificavel`, implementada por entidades identificaveis.
+- Colecoes: uso de `ArrayList` nos controllers.
+- Associacao: `Produto` possui uma `Categoria`.
+- Tratamento de excecoes: validacao de dados e tratamento de arquivos.
+- Persistencia: leitura e escrita de arquivos de texto.
+- Log: historico de operacoes em arquivo.
 
-## 👥 Integrantes e Responsabilidades
-* **Luiz Henrique Manfron Campestrini:** Responsável pelos módulos de Cliente e Funcionário
-* **Arthur Langa Dala Stella:** Responsável pelos módulos Produto e Categoria.
-* **Luiz Guilherme Borghi Chuquer:** Responsável pelos módulos Fornecedor e Estoque.
-* **Nome Integrante 4:** Responsável pelos módulos Venda e Pagamento.
-* **Nome Integrante 5:** Responsável pelos módulos Pedidos e Relatórios.
+## Estrutura do projeto
 
-## 🤖 Uso do ChatGPT
-Utilizamos a inteligência artificial (ChatGPT / Claude) como uma ferramenta de apoio educacional para:
-- Planejar a estrutura inicial de pastas e o padrão MVC.
-- Apoio na documentação e estruturação do projeto.
-- Tirar dúvidas pontuais sobre manipulação de arquivos no Java (`BufferedReader` e `BufferedWriter`).
+```text
+src/papelaria/
+  Main.java
+  controller/
+    CategoriaController.java
+    ClienteController.java
+    FuncionarioController.java
+    ProdutoController.java
+  interfaces/
+    Identificavel.java
+  model/
+    Categoria.java
+    Cliente.java
+    Funcionario.java
+    Pessoa.java
+    Produto.java
+  util/
+    ArquivoUtil.java
+  view/
+    CategoriaView.java
+    ClienteView.java
+    FuncionarioView.java
+    ProdutoView.java
+```
 
-## 📚 Referências
-- Material de aula da disciplina de Programação Orientada a Objetos.
-- Documentação oficial do Java.
+## Como executar
+
+No terminal, dentro da pasta do projeto:
+
+```bash
+javac -encoding UTF-8 -d out src/papelaria/Main.java src/papelaria/controller/*.java src/papelaria/model/*.java src/papelaria/view/*.java src/papelaria/interfaces/*.java src/papelaria/util/*.java
+java -cp out papelaria.Main
+```
+
+Tambem e possivel abrir o projeto no IntelliJ IDEA, VS Code ou Eclipse e executar
+a classe `papelaria.Main`.
+
+## Dados gerados
+
+Os arquivos abaixo sao criados automaticamente durante a execucao:
+
+- `dados/clientes.txt`
+- `dados/funcionarios.txt`
+- `dados/categorias.txt`
+- `dados/produtos.txt`
+- `dados/log.txt`
+
+Esses arquivos ficam fora do versionamento porque representam dados locais de uso.
+
+## Integrantes e responsabilidades
+
+- Luiz Henrique Manfron Campestrini: modulos Cliente e Funcionario.
+- Arthur Langa Dala Stella: modulos Produto e Categoria.
+- Luiz Guilherme Borghi Chuquer: modulos Fornecedor e Estoque.
+- Integrante 4: modulos Venda e Pagamento.
+- Integrante 5: modulos Pedidos e Relatorios.
+
+## Uso de IA
+
+A IA foi usada como apoio para revisar os requisitos do trabalho, integrar os modulos
+desenvolvidos separadamente, ajustar a organizacao do repositorio e conferir a
+compilacao do projeto. O codigo foi mantido simples para facilitar a apresentacao e
+a defesa individual.
+
+## Referencias
+
+- Material de aula da disciplina de Programacao Orientada a Objetos.
+- Documentacao oficial do Java.

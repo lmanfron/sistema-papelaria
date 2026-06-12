@@ -9,8 +9,8 @@ public class Cliente extends Pessoa implements Identificavel {
 
     public Cliente(String nome, String cpf, String telefone, String email) {
         super(nome, telefone);
-        this.cpf = cpf;
-        this.email = email;
+        setCpf(cpf);
+        setEmail(email);
     }
 
     public String getCpf() {
@@ -18,7 +18,7 @@ public class Cliente extends Pessoa implements Identificavel {
     }
 
     public void setCpf(String cpf) {
-        this.cpf = cpf;
+        this.cpf = validarTexto(cpf, "CPF");
     }
 
     public String getEmail() {
@@ -26,7 +26,7 @@ public class Cliente extends Pessoa implements Identificavel {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = validarTexto(email, "Email");
     }
 
     @Override

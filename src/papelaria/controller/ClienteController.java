@@ -44,6 +44,10 @@ public class ClienteController {
     public void cadastrar() {
         try {
             Cliente c = view.lerNovoCliente();
+            if (buscarPorCpf(c.getCpf()) != null) {
+                view.mostrarMensagem("Ja existe um cliente com esse CPF.");
+                return;
+            }
             clientes.add(c);
             salvarNoArquivo();
             ArquivoUtil.log("Cliente cadastrado: " + c.getNome() + " (CPF: " + c.getCpf() + ")");
@@ -73,12 +77,17 @@ public class ClienteController {
             return;
         }
 
-        String[] novos = view.lerAlteracao();
-        c.setTelefone(novos[0]);
-        c.setEmail(novos[1]);
-        salvarNoArquivo();
-        ArquivoUtil.log("Cliente alterado: " + c.getNome() + " (CPF: " + cpf + ")");
-        view.mostrarMensagem("Cliente alterado com sucesso!");
+        try {
+            String[] novos = view.lerAlteracao();
+            c.setTelefone(novos[0]);
+            c.setEmail(novos[1]);
+            salvarNoArquivo();
+            ArquivoUtil.log("Cliente alterado: " + c.getNome() + " (CPF: " + cpf + ")");
+            view.mostrarMensagem("Cliente alterado com sucesso!");
+        } catch (IllegalArgumentException erro) {
+            view.mostrarMensagem("Erro ao alterar: " + erro.getMessage());
+            ArquivoUtil.log("ERRO ao alterar cliente: " + erro.getMessage());
+        }
     }
 
     public void deletar() {
@@ -126,9 +135,13 @@ public class ClienteController {
             if (linha.trim().isEmpty())
                 continue;
 
-            String[] partes = linha.split(";");
+            String[] partes = linha.split(";", -1);
             if (partes.length >= 4) {
-                clientes.add(new Cliente(partes[0], partes[1], partes[2], partes[3]));
+                try {
+                    clientes.add(new Cliente(partes[0], partes[1], partes[2], partes[3]));
+                } catch (IllegalArgumentException erro) {
+                    ArquivoUtil.log("ERRO ao carregar cliente: " + erro.getMessage());
+                }
             }
         }
     }

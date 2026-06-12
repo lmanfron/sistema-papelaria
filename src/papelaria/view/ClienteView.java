@@ -23,9 +23,7 @@ public class ClienteView {
         System.out.println("5 - Deletar cliente");
         System.out.println("0 - Voltar ao menu principal");
         System.out.print("Escolha: ");
-        int opcao = scanner.nextInt();
-        scanner.nextLine();
-        return opcao;
+        return lerInteiro();
     }
 
     public Cliente lerNovoCliente() {
@@ -75,5 +73,13 @@ public class ClienteView {
 
     public void mostrarMensagem(String msg) {
         System.out.println(msg);
+    }
+
+    private int lerInteiro() {
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException erro) {
+            return -1;
+        }
     }
 }

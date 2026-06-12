@@ -10,9 +10,9 @@ public class Funcionario extends Pessoa implements Identificavel {
 
     public Funcionario(String nome, String matricula, String telefone, String cargo, double salario) {
         super(nome, telefone);
-        this.matricula = matricula;
-        this.cargo = cargo;
-        this.salario = salario;
+        setMatricula(matricula);
+        setCargo(cargo);
+        setSalario(salario);
     }
 
     public String getMatricula() {
@@ -20,7 +20,7 @@ public class Funcionario extends Pessoa implements Identificavel {
     }
 
     public void setMatricula(String matricula) {
-        this.matricula = matricula;
+        this.matricula = validarTexto(matricula, "Matricula");
     }
 
     public String getCargo() {
@@ -28,7 +28,7 @@ public class Funcionario extends Pessoa implements Identificavel {
     }
 
     public void setCargo(String cargo) {
-        this.cargo = cargo;
+        this.cargo = validarTexto(cargo, "Cargo");
     }
 
     public double getSalario() {
@@ -36,12 +36,15 @@ public class Funcionario extends Pessoa implements Identificavel {
     }
 
     public void setSalario(double salario) {
+        if (salario < 0) {
+            throw new IllegalArgumentException("Salario nao pode ser negativo.");
+        }
         this.salario = salario;
     }
 
     @Override
     public String getTipo() {
-        return "Funcionário";
+        return "Funcionario";
     }
 
     @Override

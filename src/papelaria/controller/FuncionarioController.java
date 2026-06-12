@@ -44,6 +44,10 @@ public class FuncionarioController {
     public void cadastrar() {
         try {
             Funcionario f = view.lerNovoFuncionario();
+            if (buscarPorMatricula(f.getMatricula()) != null) {
+                view.mostrarMensagem("Ja existe um funcionario com essa matricula.");
+                return;
+            }
             funcionarios.add(f);
             salvarNoArquivo();
             ArquivoUtil.log("Funcionario cadastrado: " + f.getNome() + " (Matricula: " + f.getMatricula() + ")");
@@ -73,18 +77,22 @@ public class FuncionarioController {
             return;
         }
 
-        String[] novos = view.lerAlteracao();
-        f.setTelefone(novos[0]);
-        f.setCargo(novos[1]);
         try {
-            f.setSalario(Double.parseDouble(novos[2]));
-        } catch (NumberFormatException e) {
+            String[] novos = view.lerAlteracao();
+            f.setTelefone(novos[0]);
+            f.setCargo(novos[1]);
+            f.setSalario(Double.parseDouble(novos[2].replace(",", ".")));
+            salvarNoArquivo();
+            ArquivoUtil.log("Funcionario alterado: " + f.getNome() + " (Matricula: " + matricula + ")");
+            view.mostrarMensagem("Funcionario alterado com sucesso!");
+        } catch (NumberFormatException erro) {
             view.mostrarMensagem("Salario invalido. Alteracao cancelada.");
+            ArquivoUtil.log("ERRO ao alterar funcionario: salario invalido");
+        } catch (IllegalArgumentException erro) {
+            view.mostrarMensagem("Erro ao alterar: " + erro.getMessage());
+            ArquivoUtil.log("ERRO ao alterar funcionario: " + erro.getMessage());
             return;
         }
-        salvarNoArquivo();
-        ArquivoUtil.log("Funcionario alterado: " + f.getNome() + " (Matricula: " + matricula + ")");
-        view.mostrarMensagem("Funcionario alterado com sucesso!");
     }
 
     public void deletar() {
@@ -131,12 +139,14 @@ public class FuncionarioController {
             if (linha.trim().isEmpty())
                 continue;
 
-            String[] partes = linha.split(";");
+            String[] partes = linha.split(";", -1);
             if (partes.length >= 5) {
                 try {
                     funcionarios.add(new Funcionario(
                             partes[0], partes[1], partes[2], partes[3], Double.parseDouble(partes[4])));
-                } catch (NumberFormatException e) { }
+                } catch (IllegalArgumentException erro) {
+                    ArquivoUtil.log("ERRO ao carregar funcionario: " + erro.getMessage());
+                }
             }
         }
     }

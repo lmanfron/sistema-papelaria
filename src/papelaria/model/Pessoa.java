@@ -5,8 +5,8 @@ public abstract class Pessoa {
     protected String telefone;
 
     public Pessoa(String nome, String telefone) {
-        this.nome = nome;
-        this.telefone = telefone;
+        setNome(nome);
+        setTelefone(telefone);
     }
 
     public String getNome() {
@@ -14,7 +14,7 @@ public abstract class Pessoa {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = validarTexto(nome, "Nome");
     }
 
     public String getTelefone() {
@@ -22,10 +22,17 @@ public abstract class Pessoa {
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        this.telefone = validarTexto(telefone, "Telefone");
     }
 
     public abstract String getTipo();
+
+    protected String validarTexto(String valor, String campo) {
+        if (valor == null || valor.trim().isEmpty()) {
+            throw new IllegalArgumentException(campo + " e obrigatorio.");
+        }
+        return valor.trim();
+    }
 
     @Override
     public String toString() {

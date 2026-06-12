@@ -23,9 +23,7 @@ public class FuncionarioView {
         System.out.println("5 - Deletar funcionario");
         System.out.println("0 - Voltar ao menu principal");
         System.out.print("Escolha: ");
-        int opcao = scanner.nextInt();
-        scanner.nextLine();
-        return opcao;
+        return lerInteiro();
     }
 
     public Funcionario lerNovoFuncionario() {
@@ -39,8 +37,7 @@ public class FuncionarioView {
         System.out.print("Cargo: ");
         String cargo = scanner.nextLine();
         System.out.print("Salario: ");
-        double salario = scanner.nextDouble();
-        scanner.nextLine();
+        double salario = lerDouble();
         return new Funcionario(nome, matricula, telefone, cargo, salario);
     }
 
@@ -80,5 +77,21 @@ public class FuncionarioView {
 
     public void mostrarMensagem(String msg) {
         System.out.println(msg);
+    }
+
+    private int lerInteiro() {
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException erro) {
+            return -1;
+        }
+    }
+
+    private double lerDouble() {
+        try {
+            return Double.parseDouble(scanner.nextLine().replace(",", "."));
+        } catch (NumberFormatException erro) {
+            return -1;
+        }
     }
 }
