@@ -86,8 +86,8 @@ Esses arquivos ficam fora do versionamento porque representam dados locais de us
 - Luiz Henrique Manfron Campestrini: modulos Cliente e Funcionario.
 - Arthur Langa Dala Stella: modulos Produto e Categoria.
 - Luiz Guilherme Borghi Chuquer: modulos Fornecedor e Estoque.
-- Integrante 4: modulos Venda e Pagamento.
-- Integrante 5: modulos Pedidos e Relatorios.
+- André Gadens: modulos Venda e Pagamento.
+- Edison Zoarces Zaneta Negrão: modulos Pedidos e Relatorios.
 
 ## Uso de IA
 
