@@ -1,3 +1,13 @@
+package papelaria;
+
+import java.util.Scanner;
+import papelaria.controller.CategoriaController;
+import papelaria.controller.ClienteController;
+import papelaria.controller.FuncionarioController;
+import papelaria.controller.PedidoController;
+import papelaria.controller.ProdutoController;
+import papelaria.controller.RelatorioController;
+
 public class Main {
     public Main() {
     }
