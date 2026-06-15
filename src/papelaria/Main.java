@@ -1,10 +1,13 @@
 package papelaria;
 
 import java.util.Scanner;
+
 import papelaria.controller.CategoriaController;
 import papelaria.controller.ClienteController;
 import papelaria.controller.FuncionarioController;
 import papelaria.controller.PedidoController;
+import papelaria.controller.VendaController;
+import papelaria.controller.PagamentoController;
 import papelaria.controller.ProdutoController;
 import papelaria.controller.RelatorioController;
 
@@ -20,8 +23,10 @@ public class Main {
         ProdutoController var5 = new ProdutoController(var1, var4);
         PedidoController var6 = new PedidoController(var1, var5);
         RelatorioController var7 = new RelatorioController(var1, var2, var5, var6);
+        VendaController var8 = new VendaController(var1, var2, var3, var5);
+        PagamentoController var9 = new PagamentoController();
 
-        int var8;
+        int opcao;
         do {
             System.out.println("\n==================================");
             System.out.println("  SISTEMA DE GERENCIAMENTO");
@@ -31,12 +36,14 @@ public class Main {
             System.out.println("2 - Gerenciar Funcionarios");
             System.out.println("3 - Gerenciar Produtos");
             System.out.println("4 - Gerenciar Categorias");
+            System.out.println("7 - Gerenciar Vendas");
+            System.out.println("8 - Gerenciar Pagamentos");
             System.out.println("9 - Gerenciar Pedidos");
             System.out.println("10 - Relatorios");
             System.out.println("0 - Sair");
             System.out.print("Escolha: ");
-            var8 = lerOpcao(var1);
-            switch (var8) {
+            opcao = lerOpcao(var1);
+            switch (opcao) {
                 case 0:
                     System.out.println("Encerrando o sistema...");
                     break;
@@ -54,10 +61,14 @@ public class Main {
                     break;
                 case 5:
                 case 6:
-                case 7:
-                case 8:
                 default:
                     System.out.println("Opcao invalida!");
+                    break;
+                case 7:
+                    var8.iniciar();
+                    break;
+                case 8:
+                    var9.iniciar();
                     break;
                 case 9:
                     var6.iniciar();
@@ -65,7 +76,7 @@ public class Main {
                 case 10:
                     var7.iniciar();
             }
-        } while(var8 != 0);
+        } while(opcao != 0);
 
         var1.close();
     }
