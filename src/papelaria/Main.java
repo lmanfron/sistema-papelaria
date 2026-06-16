@@ -10,6 +10,8 @@ import papelaria.controller.VendaController;
 import papelaria.controller.PagamentoController;
 import papelaria.controller.ProdutoController;
 import papelaria.controller.RelatorioController;
+import papelaria.view.FornecedorView;
+import papelaria.view.EstoqueView;
 
 public class Main {
     public Main() {
@@ -25,6 +27,8 @@ public class Main {
         RelatorioController var7 = new RelatorioController(var1, var2, var5, var6);
         VendaController var8 = new VendaController(var1, var2, var3, var5);
         PagamentoController var9 = new PagamentoController();
+        FornecedorView var10 = new FornecedorView(var1);
+        EstoqueView var11 = new EstoqueView(var5, var1);
 
         int opcao;
         do {
@@ -36,6 +40,8 @@ public class Main {
             System.out.println("2 - Gerenciar Funcionarios");
             System.out.println("3 - Gerenciar Produtos");
             System.out.println("4 - Gerenciar Categorias");
+            System.out.println("5 - Gerenciar Fornecedores");
+            System.out.println("6 - Gerenciar Estoque");
             System.out.println("7 - Gerenciar Vendas");
             System.out.println("8 - Gerenciar Pagamentos");
             System.out.println("9 - Gerenciar Pedidos");
@@ -60,7 +66,11 @@ public class Main {
                     var4.iniciar();
                     break;
                 case 5:
+                    var10.menu();
+                    break;
                 case 6:
+                    var11.menu();
+                    break;
                 default:
                     System.out.println("Opcao invalida!");
                     break;

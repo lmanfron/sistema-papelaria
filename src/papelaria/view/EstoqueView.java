@@ -14,10 +14,10 @@ public class EstoqueView {
     private final EstoqueController estoqueController;
     private final ProdutoController produtoController;
 
-    public EstoqueView(EstoqueController estoqueController, ProdutoController produtoController) {
+    public EstoqueView(ProdutoController produtoController, Scanner sc) {
 
-        this.sc = new Scanner(System.in);
-        this.estoqueController = estoqueController;
+        this.sc = sc;
+        this.estoqueController = new EstoqueController();
         this.produtoController = produtoController;
 
     }

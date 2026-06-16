@@ -13,10 +13,10 @@ public class FornecedorView {
     private final Scanner sc;
     private final FornecedorController controller;
 
-    public FornecedorView(FornecedorController fornecedorController) {
+    public FornecedorView(Scanner sc) {
 
-        this.sc = new Scanner(System.in);
-        this.controller = fornecedorController;
+        this.sc = sc;
+        this.controller = new FornecedorController();
     }
 
     public void menu() {
