@@ -71,9 +71,6 @@ public class Main {
                 case 6:
                     var11.menu();
                     break;
-                default:
-                    System.out.println("Opcao invalida!");
-                    break;
                 case 7:
                     var8.iniciar();
                     break;
@@ -85,6 +82,9 @@ public class Main {
                     break;
                 case 10:
                     var7.iniciar();
+                default:
+                    System.out.println("Opcao invalida!");
+                    break;
             }
         } while(opcao != 0);
 
