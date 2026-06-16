@@ -2,6 +2,7 @@ package papelaria.controller;
 
 import papelaria.exception.*;
 import papelaria.model.Fornecedor;
+import papelaria.util.ArquivoUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,19 +17,26 @@ public class FornecedorController {
         this.fornecedores = new HashMap<>();
     }
 
-    public void cadastrarFornecedor(Fornecedor novo_fornecedor) throws FornecedorJaCadastradoException, CnpjInvalidoException, IdInvalidoException, TelefoneInvalidoException {
+    public void cadastrarFornecedor(Fornecedor novo_fornecedor) throws FornecedorJaCadastradoException {
 
         if (fornecedores.containsKey(novo_fornecedor.getCnpj())) {
+            ArquivoUtil.log("Tentativa de cadastro duplicado: " + novo_fornecedor.getCnpj());
+
             throw new FornecedorJaCadastradoException("Fornecedor já cadastrado");
         }
 
         fornecedores.put(novo_fornecedor.getCnpj(), novo_fornecedor);
+
+        ArquivoUtil.log("Fornecedor cadastrado: " + novo_fornecedor.getNome());
     }
 
     public void removerFornecedor(String cnpj) throws FornecedorNaoEncontrado {
 
-        buscarFornecedorCnpj(cnpj);
+        Fornecedor fornecedor = buscarFornecedorCnpj(cnpj);
+
         fornecedores.remove(cnpj);
+
+        ArquivoUtil.log("Fornecedor removido: " + fornecedor.getNome());
     }
 
     public Fornecedor buscarFornecedorCnpj(String cnpj) throws FornecedorNaoEncontrado {

@@ -1,7 +1,6 @@
 package papelaria.view;
 
 import papelaria.controller.FornecedorController;
-import papelaria.controller.ProdutoController;
 import papelaria.exception.*;
 import papelaria.model.Fornecedor;
 
@@ -94,7 +93,7 @@ public class FornecedorView {
             Fornecedor fornecedor = new Fornecedor(id, nome, cnpj, numero, email);
             controller.cadastrarFornecedor(fornecedor);
 
-        } catch (FornecedorJaCadastradoException | TelefoneInvalidoException | CnpjInvalidoException | IdInvalidoException e) {
+        } catch (FornecedorJaCadastradoException | CnpjInvalidoException | IdInvalidoException e) {
             mostrarMensagem(e.getMessage() + "\n");
         }
     }
@@ -110,11 +109,11 @@ public class FornecedorView {
         }
     }
 
-    public void verificarStatus () {
+    public void verificarStatus() {
         try {
             Fornecedor fornecedor = buscarObjetoFornecedor();
 
-            boolean status =fornecedor.estaAtivo();
+            boolean status = fornecedor.estaAtivo();
             if (status) {
                 mostrarMensagem("ATIVO...\n");
             } else {
@@ -175,7 +174,9 @@ public class FornecedorView {
         }
     }
 
-    public void buffer() {sc.nextLine();}
+    public void buffer() {
+        sc.nextLine();
+    }
 
     public void mostrarMensagem(String mensagem) {
         System.out.println(mensagem);

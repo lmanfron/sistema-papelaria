@@ -86,7 +86,7 @@ public class Main {
                     System.out.println("Opcao invalida!");
                     break;
             }
-        } while(opcao != 0);
+        } while (opcao != 0);
 
         var1.close();
     }

@@ -3,51 +3,41 @@ package papelaria.model;
 import papelaria.enums.StatusFornecedor;
 import papelaria.exception.CnpjInvalidoException;
 import papelaria.exception.IdInvalidoException;
-import papelaria.exception.TelefoneInvalidoException;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class Fornecedor {
+public class Fornecedor extends Pessoa {
 
     private int id;
-    private String nome;
     private String cnpj;
-    private String telefone;
     private String email;
     private final Set<Categoria> categoriasFornecidas;
     private StatusFornecedor status;
 
-    public Fornecedor(int id, String nome, String cnpj, String telefone, String email) throws IdInvalidoException, TelefoneInvalidoException, CnpjInvalidoException {
+    public Fornecedor(int id, String nome, String cnpj, String telefone, String email) throws IdInvalidoException, CnpjInvalidoException {
+
+        super(nome, telefone);
 
         setId(id);
-        setNome(nome);
         setCnpj(cnpj);
-        setTelefone(telefone);
         setEmail(email);
+        setTelefone(telefone);
+
         this.status = StatusFornecedor.ATIVO;
         this.categoriasFornecidas = new HashSet<>();
     }
 
-
-    public int getId() {
+    public int getIdFornecedor() {
         return id;
     }
 
     public void setId(int id) throws IdInvalidoException {
-
         if (id <= 0) {
             throw new IdInvalidoException("Id deve ser maior que 0");
         }
+
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getCnpj() {
@@ -55,23 +45,26 @@ public class Fornecedor {
     }
 
     public void setCnpj(String cnpj) throws CnpjInvalidoException {
-
-        if (cnpj.length() < 14) {
+        if (cnpj == null || cnpj.trim().length() < 14) {
             throw new CnpjInvalidoException("CNPJ inválido");
         }
-        this.cnpj = cnpj;
+
+        this.cnpj = cnpj.trim();
     }
 
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) throws TelefoneInvalidoException {
-
-        if (telefone.length() < 10 || telefone.length() > 11) {
-            throw new TelefoneInvalidoException("Número de telefone inválido");
+    @Override
+    public void setTelefone(String telefone) {
+        if (telefone == null) {
+            throw new IllegalArgumentException("Telefone é obrigatório.");
         }
-        this.telefone = telefone;
+
+        String telefoneLimpo = telefone.replaceAll("\\D", "");
+
+        if (telefoneLimpo.length() < 10 || telefoneLimpo.length() > 11) {
+            throw new IllegalArgumentException("Número de telefone inválido");
+        }
+
+        this.telefone = telefoneLimpo;
     }
 
     public String getEmail() {
@@ -79,47 +72,42 @@ public class Fornecedor {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = validarTexto(email, "E-mail");
     }
 
     public boolean estaAtivo() {
-
         return this.status == StatusFornecedor.ATIVO;
     }
 
     public void ativar() {
-
         this.status = StatusFornecedor.ATIVO;
     }
 
     public void destivar() {
-
         this.status = StatusFornecedor.INATIVO;
     }
 
     public void adicionarCategoria(Categoria categoria) {
-
         categoriasFornecidas.add(categoria);
     }
 
     public void removerCategoria(Categoria categoria) {
-
         categoriasFornecidas.remove(categoria);
     }
 
     public boolean forneceCategoria(Categoria categoria) {
-
         return categoriasFornecidas.contains(categoria);
     }
 
+    @Override
     public String getTipo() {
-
         return "Fornecedor";
     }
 
     @Override
     public String toString() {
-        return  "------------------------------------------------" +
+        return "------------------------------------------------" +
+                "\nTipo: " + getTipo() +
                 "\nID: " + id +
                 "\nNome: " + nome +
                 "\nCNPJ: " + cnpj +
