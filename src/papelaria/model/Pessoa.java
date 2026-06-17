@@ -21,8 +21,18 @@ public abstract class Pessoa {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = validarTexto(telefone, "Telefone");
+        public void setTelefone(String telefone) {
+            if (telefone == null || telefone.trim().isEmpty()) {
+                throw new IllegalArgumentException("Telefone e obrigatorio.");
+        }
+
+        String telefoneLimpo = telefone.replaceAll("\\D", "");
+
+        if (telefoneLimpo.length() < 10 || telefoneLimpo.length() > 11) {
+            throw new IllegalArgumentException("Telefone deve ter 10 ou 11 numeros.");
+        }
+
+        this.telefone = telefoneLimpo;
     }
 
     public abstract String getTipo();
