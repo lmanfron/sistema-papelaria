@@ -26,9 +26,15 @@ public class Cliente extends Pessoa implements Identificavel {
     }
 
     public void setEmail(String email) {
-        this.email = validarTexto(email, "Email");
-    }
+        email = validarTexto(email, "Email");
 
+            if (!email.contains("@") || !email.contains(".")) {
+                throw new IllegalArgumentException("Email invalido.");
+        }
+
+        this.email = email;
+    }
+    
     @Override
     public String getTipo() {
         return "Cliente";
