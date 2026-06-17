@@ -1,45 +1,26 @@
 package papelaria.controller;
 
-import papelaria.model.Cliente;
-import papelaria.model.Funcionario;
-import papelaria.model.Produto;
-import papelaria.model.Venda;
-import papelaria.view.VendaView;
 import papelaria.util.ArquivoUtil;
-import java.util.List;
+import papelaria.model.Pagamento;
+import papelaria.model.PagamentoCartao;
+import papelaria.model.PagamentoPix;
+import papelaria.view.PagamentoView;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class VendaController {
+public class PagamentoController {
 
-    private static final String ARQUIVO = "vendas.txt";
+    private static final String ARQUIVO = "pagamentos.txt";
 
-    private ArrayList<Venda> vendas;
+    private Map<Integer, Pagamento> pagamentos = new HashMap<>();
+    private int proximoId = 1;
+    private PagamentoView view;
 
-    private VendaView view;
-
-    private ClienteController clienteController;
-    private FuncionarioController funcionarioController;
-    private ProdutoController produtoController;
-
-    private int proximoId;
-
-    public VendaController(
-            Scanner scanner,
-            ClienteController clienteController,
-            FuncionarioController funcionarioController,
-            ProdutoController produtoController) {
-
-        this.vendas = new ArrayList<>();
-
-        this.view = new VendaView(scanner);
-
-        this.clienteController = clienteController;
-        this.funcionarioController = funcionarioController;
-        this.produtoController = produtoController;
-
-        this.proximoId = 1;
+    public PagamentoController() {
+        this.view = new PagamentoView(this);
         carregarDoArquivo();
     }
 
@@ -54,251 +35,149 @@ public class VendaController {
             switch (opcao) {
 
                 case 1:
-                    cadastrarVenda();
+                    view.registrarPagamentoPix();
                     break;
 
                 case 2:
-                    listarVendas();
+                    view.registrarPagamentoCartao();
                     break;
 
                 case 3:
-                    buscarVenda();
+                    view.listarPagamentos();
                     break;
 
                 case 4:
-                    alterarVenda();
+                    view.buscarPagamento();
                     break;
 
                 case 5:
-                    excluirVenda();
+                    view.mostrarTotalRecebido();
                     break;
 
                 case 0:
-                    view.mostrarMensagem("Voltando...");
+                    System.out.println("Voltando...");
                     break;
 
                 default:
-                    view.mostrarMensagem("Opcao invalida.");
+                    System.out.println("Opcao invalida.");
             }
 
         } while (opcao != 0);
     }
 
-    private void cadastrarVenda() {
+    public void registrarPagamento(double valor, String status, String chavePix) {
 
-        Cliente cliente =
-                clienteController.buscarPorCpf(
-                        view.lerCpfCliente());
-
-        if (cliente == null) {
-            view.mostrarMensagem("Cliente nao encontrado.");
-            return;
+        if(valor <= 0){
+            throw new IllegalArgumentException("Valor deve ser maior que zero");
         }
 
-        Funcionario funcionario =
-                funcionarioController.buscarPorMatricula(
-                        view.lerMatriculaFuncionario());
+        Pagamento pagamento = new PagamentoPix(proximoId, valor, status, chavePix);
 
-        if (funcionario == null) {
-            view.mostrarMensagem("Funcionario nao encontrado.");
-            return;
-        }
+        pagamentos.put(proximoId, pagamento);
 
-        ArrayList<Produto> produtos = new ArrayList<>();
-
-        int quantidade = view.lerQuantidadeProdutos();
-
-        for (int i = 0; i < quantidade; i++) {
-
-            Produto produto =
-                    produtoController.buscarPorCodigo(
-                            view.lerCodigoProduto());
-
-            if (produto != null) {
-                produtos.add(produto);
-            }
-        }
-
-        Venda venda = new Venda(
-                proximoId,
-                cliente,
-                funcionario,
-                produtos);
-
-        vendas.add(venda);
         salvarNoArquivo();
-        ArquivoUtil.log("Venda cadastrada: " + venda.getId());
+        ArquivoUtil.log("Pagamento Pix cadastrado. ID: " + proximoId);
 
         proximoId++;
-
-        view.mostrarMensagem("Venda cadastrada com sucesso.");
     }
 
-    private void listarVendas() {
+    public void registrarPagamento(double valor, String status, int parcelas) {
 
-        if (vendas.isEmpty()) {
-            view.mostrarMensagem("Nenhuma venda cadastrada.");
-            return;
+        if(valor <= 0){
+            throw new IllegalArgumentException(
+                    "Valor deve ser maior que zero");
         }
 
-        for (Venda venda : vendas) {
-            System.out.println(venda);
-        }
-    }
+        Pagamento pagamento = new PagamentoCartao(proximoId, valor, status, parcelas);
 
-    private void buscarVenda() {
+        pagamentos.put(proximoId, pagamento);
 
-        Venda venda =
-                buscarPorId(view.lerIdVenda());
-
-        if (venda == null) {
-            view.mostrarMensagem("Venda nao encontrada.");
-        } else {
-            System.out.println(venda);
-        }
-    }
-
-    private void excluirVenda() {
-
-        Venda venda =
-                buscarPorId(view.lerIdVenda());
-
-        if (venda == null) {
-            view.mostrarMensagem("Venda nao encontrada.");
-            return;
-        }
-
-        vendas.remove(venda);
         salvarNoArquivo();
-        ArquivoUtil.log("Venda removida: " + venda.getId());
+        ArquivoUtil.log("Pagamento Cartao cadastrado. ID: " + proximoId);
 
-        view.mostrarMensagem("Venda removida com sucesso.");
+        proximoId++;
     }
 
-    private void alterarVenda() {
+    public void listarPagamentos() {
 
-        Venda venda =
-                buscarPorId(view.lerIdVenda());
-
-        if (venda == null) {
-            view.mostrarMensagem("Venda nao encontrada.");
-            return;
+        for(Pagamento pagamento : pagamentos.values()) {
+            System.out.println(pagamento);
         }
-
-        vendas.remove(venda);
-
-        cadastrarVenda();
-
-        view.mostrarMensagem("Venda alterada com sucesso.");
     }
 
-    public Venda buscarPorId(int id) {
+    public Pagamento buscarPagamento(int id) {
 
-        for (Venda venda : vendas) {
+        ArquivoUtil.log("Busca de pagamento. ID: " + id);
 
-            if (venda.getId() == id) {
-                return venda;
-            }
+        return pagamentos.get(id);
+    }
+
+    public double calcularTotalRecebido(){
+
+        double total = 0;
+
+        for(Pagamento pagamento : pagamentos.values()){
+            total += pagamento.getValor();
         }
-
-        return null;
+        ArquivoUtil.log("Total recebido consultado");
+        return total;
     }
 
-    public ArrayList<Venda> getVendas() {
-        return vendas;
-    }
     private void salvarNoArquivo() {
 
         List<String> linhas = new ArrayList<>();
 
-        for (Venda venda : vendas) {
+        for(Pagamento pagamento : pagamentos.values()) {
 
-            StringBuilder produtos = new StringBuilder();
+            if(pagamento instanceof PagamentoPix) {
 
-            for (Produto produto : venda.getProdutos()) {
-
-                produtos.append(produto.getCodigo()).append(",");
+                PagamentoPix pix = (PagamentoPix) pagamento;
+                linhas.add("PIX;" + pix.getId() + ";" + pix.getValor() + ";" + pix.getStatus() + ";" + pix.getChavePix());
             }
+            else if(pagamento instanceof PagamentoCartao) {
 
-            linhas.add(
-                    venda.getId() + ";" +
-                            venda.getCliente().getCpf() + ";" +
-                            venda.getFuncionario().getMatricula() + ";" +
-                            produtos
-            );
-        }
-
-        ArquivoUtil.salvar(ARQUIVO, linhas);
-    }
-    private void carregarDoArquivo() {
-
-        List<String> linhas = ArquivoUtil.carregar(ARQUIVO);
-
-        vendas.clear();
-
-        int maiorId = 0;
-
-        for (String linha : linhas) {
-
-            if (linha.trim().isEmpty()) {
-                continue;
-            }
-
-            String[] partes = linha.split(";");
-
-            try {
-
-                int id = Integer.parseInt(partes[0]);
-
-                Cliente cliente =
-                        clienteController.buscarPorCpf(partes[1]);
-
-                Funcionario funcionario =
-                        funcionarioController.buscarPorMatricula(partes[2]);
-
-                ArrayList<Produto> produtos = new ArrayList<>();
-
-                String[] codigos = partes[3].split(",");
-
-                for (String codigo : codigos) {
-
-                    if (!codigo.isEmpty()) {
-
-                        Produto produto =
-                                produtoController.buscarPorCodigo(
-                                        Integer.parseInt(codigo));
-
-                        if (produto != null) {
-                            produtos.add(produto);
-                        }
-                    }
-                }
-
-                if (cliente != null && funcionario != null) {
-
-                    vendas.add(
-                            new Venda(
-                                    id,
-                                    cliente,
-                                    funcionario,
-                                    produtos
-                            )
-                    );
-
-                    if (id > maiorId) {
-                        maiorId = id;
-                    }
-                }
-
-            } catch (Exception erro) {
-
-                ArquivoUtil.log(
-                        "Erro ao carregar venda: "
-                                + erro.getMessage()
+                PagamentoCartao cartao = (PagamentoCartao) pagamento;
+                linhas.add("CARTAO;" + cartao.getId() + ";" + cartao.getValor() + ";" + cartao.getStatus() + ";" + cartao.getParcelas()
                 );
             }
         }
+        ArquivoUtil.salvar(ARQUIVO, linhas);
+    }
 
-        proximoId = maiorId + 1;
+    private void carregarDoArquivo() {
+        List<String> linhas = ArquivoUtil.carregar(ARQUIVO);
+
+        pagamentos.clear();
+
+        for(String linha : linhas) {
+            String[] partes = linha.split(";");
+            if(partes[0].equals("PIX")) {
+                int id = Integer.parseInt(partes[1]);
+                double valor = Double.parseDouble(partes[2]);
+                String status = partes[3];
+                String chavePix = partes[4];
+
+                Pagamento pagamento = new PagamentoPix(id, valor, status, chavePix);
+
+                pagamentos.put(id, pagamento);
+            }
+            else if(partes[0].equals("CARTAO")) {
+                int id = Integer.parseInt(partes[1]);
+                double valor = Double.parseDouble(partes[2]);
+                String status = partes[3];
+                int parcelas = Integer.parseInt(partes[4]);
+
+                Pagamento pagamento = new PagamentoCartao(id, valor, status, parcelas);
+
+                pagamentos.put(id, pagamento);
+            }
+        }
+        if(!pagamentos.isEmpty()) {
+
+            proximoId = pagamentos.keySet()
+                    .stream()
+                    .max(Integer::compareTo)
+                    .get() + 1;
+        }
     }
 }
