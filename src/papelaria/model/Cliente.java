@@ -18,7 +18,17 @@ public class Cliente extends Pessoa implements Identificavel {
     }
 
     public void setCpf(String cpf) {
-        this.cpf = validarTexto(cpf, "CPF");
+        if (cpf == null || cpf.trim().isEmpty()) {
+            throw new IllegalArgumentException("CPF e obrigatorio.");
+        }
+
+        String cpfLimpo = cpf.replaceAll("\\D", "");
+
+        if (cpfLimpo.length() != 11) {
+            throw new IllegalArgumentException("CPF deve ter 11 numeros.");
+        }
+
+        this.cpf = cpfLimpo;
     }
 
     public String getEmail() {
