@@ -174,10 +174,7 @@ public class PagamentoController {
         }
         if(!pagamentos.isEmpty()) {
 
-            proximoId = pagamentos.keySet()
-                    .stream()
-                    .max(Integer::compareTo)
-                    .get() + 1;
+            proximoId = pagamentos.keySet().stream().max(Integer::compareTo).get() + 1;
         }
     }
 }
