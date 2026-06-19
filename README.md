@@ -115,6 +115,8 @@ Os arquivos abaixo sao criados automaticamente durante a execucao:
 - `dados/funcionarios.txt`
 - `dados/categorias.txt`
 - `dados/produtos.txt`
+- `dados/vendas.txt`
+- `dados/pagamentos.txt`
 - `dados/log.txt`
 
 Esses arquivos ficam fora do versionamento porque representam dados locais de uso.
