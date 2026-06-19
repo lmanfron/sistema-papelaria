@@ -114,6 +114,8 @@ Os arquivos abaixo sao criados automaticamente durante a execucao:
 - `dados/clientes.txt`
 - `dados/funcionarios.txt`
 - `dados/categorias.txt`
+- `dados/fornecedores.txt`
+- `dados/estoque.txt`
 - `dados/produtos.txt`
 - `dados/vendas.txt`
 - `dados/pagamentos.txt`
