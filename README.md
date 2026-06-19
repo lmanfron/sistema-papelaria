@@ -33,28 +33,66 @@ no trabalho.
 ## Estrutura do projeto
 
 ```text
-src/papelaria/
-  Main.java
-  controller/
-    CategoriaController.java
-    ClienteController.java
-    FuncionarioController.java
-    ProdutoController.java
-  interfaces/
-    Identificavel.java
-  model/
-    Categoria.java
-    Cliente.java
-    Funcionario.java
-    Pessoa.java
-    Produto.java
-  util/
-    ArquivoUtil.java
-  view/
-    CategoriaView.java
-    ClienteView.java
-    FuncionarioView.java
-    ProdutoView.java
+src/
+└── papelaria/
+    ├── Main.java
+    │
+    ├── controller/
+    │   ├── CategoriaController.java
+    │   ├── ClienteController.java
+    │   ├── EstoqueController.java
+    │   ├── FornecedorController.java
+    │   ├── FuncionarioController.java
+    │   ├── PagamentoController.java
+    │   ├── PedidoController.java
+    │   ├── ProdutoController.java
+    │   ├── RelatorioController.java
+    │   └── VendaController.java
+    │
+    ├── model/
+    │   ├── Pessoa.java         
+    │   ├── Cliente.java         
+    │   ├── Funcionario.java     
+    │   ├── Categoria.java
+    │   ├── Estoque.java
+    │   ├── Fornecedor.java
+    │   ├── Pagamento.java
+    │   ├── PagamentoCartao.java
+    │   ├── PagamentoPix.java
+    │   ├── Pedido.java
+    │   ├── Produto.java
+    │   └── Venda.java
+    │
+    ├── view/
+    │   ├── CategoriaView.java
+    │   ├── ClienteView.java
+    │   ├── EstoqueView.java
+    │   ├── FornecedorView.java
+    │   ├── FuncionarioView.java
+    │   ├── PagamentoView.java
+    │   ├── PedidoView.java
+    │   ├── ProdutoView.java
+    │   ├── RelatorioView.java
+    │   └── VendaView.java
+    │
+    ├── interfaces/
+    │   └── Identificavel.java
+    │
+    ├── enums/
+    │   └── StatusFornecedor.java
+    │
+    ├── exception/
+    │   ├── CnpjInvalidoException.java
+    │   ├── EstoqueInsuficienteException.java
+    │   ├── FornecedorJaCadastradoException.java
+    │   ├── FornecedorNaoEncontradoException.java
+    │   ├── IdInvalidoException.java
+    │   ├── ProdutoJaCadastradoException.java
+    │   ├── ProdutoNaoEncontradoException.java
+    │   └── QuantidadeInvalidaException.java
+    │
+    └── util/
+        └── ArquivoUtil.java
 ```
 
 ## Como executar
