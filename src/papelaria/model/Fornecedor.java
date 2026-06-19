@@ -75,6 +75,10 @@ public class Fornecedor extends Pessoa {
         this.email = validarTexto(email, "E-mail");
     }
 
+    public StatusFornecedor getStatus() {
+        return status;
+    }
+
     public boolean estaAtivo() {
         return this.status == StatusFornecedor.ATIVO;
     }
@@ -83,7 +87,7 @@ public class Fornecedor extends Pessoa {
         this.status = StatusFornecedor.ATIVO;
     }
 
-    public void destivar() {
+    public void desativar() {
         this.status = StatusFornecedor.INATIVO;
     }
 
@@ -97,6 +101,10 @@ public class Fornecedor extends Pessoa {
 
     public boolean forneceCategoria(Categoria categoria) {
         return categoriasFornecidas.contains(categoria);
+    }
+
+    public String paraArquivo() {
+        return id + ";" + nome + ";" + cnpj + ";" + telefone + ";" + email + ";" + status;
     }
 
     @Override

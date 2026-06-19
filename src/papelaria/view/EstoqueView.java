@@ -17,7 +17,7 @@ public class EstoqueView {
     public EstoqueView(ProdutoController produtoController, Scanner sc) {
 
         this.sc = sc;
-        this.estoqueController = new EstoqueController();
+        this.estoqueController = new EstoqueController(produtoController);
         this.produtoController = produtoController;
 
     }

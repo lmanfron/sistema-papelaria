@@ -173,6 +173,10 @@ public class ProdutoController {
         return produtos;
     }
 
+    public void atualizarArquivo() {
+        salvarNoArquivo();
+    }
+
     private void salvarNoArquivo() {
         List<String> linhas = new ArrayList<>();
         for (Produto produto : produtos) {

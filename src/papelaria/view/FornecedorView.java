@@ -129,6 +129,7 @@ public class FornecedorView {
         try {
             Fornecedor fornecedor = buscarObjetoFornecedor();
             fornecedor.ativar();
+            controller.salvarNoArquivo();
             mostrarMensagem("Fornecedor Ativado...\n");
 
         } catch (FornecedorNaoEncontrado e) {
@@ -139,7 +140,8 @@ public class FornecedorView {
     public void desativarFornecedor() {
         try {
             Fornecedor fornecedor = buscarObjetoFornecedor();
-            fornecedor.destivar();
+            fornecedor.desativar();
+            controller.salvarNoArquivo();
             mostrarMensagem("Fornecedor Desativado \n");
 
         } catch (FornecedorNaoEncontrado e) {
